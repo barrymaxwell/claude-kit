@@ -3,6 +3,10 @@
 Applies to every project, under its own CLAUDE.md. Lives in `~/claude-kit`.
 Commit and push changes there.
 
+**"Set up the kit"** means: copy `~/claude-kit/project/*` into this folder
+without overwriting anything, fill in the brief from what's already here,
+and ask me for the rest.
+
 ## Replies
 
 - **1–3 lines.** A ceiling, not an average. I'll ask for more.
