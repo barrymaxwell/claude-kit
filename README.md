@@ -15,6 +15,14 @@ git clone https://github.com/barrymaxwell/claude-kit.git ~/claude-kit
 ln -sf ~/claude-kit/CLAUDE.md ~/.claude/CLAUDE.md
 ```
 
+```bash
+mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skills/meeting
+```
+
+## Skills
+
+- `skills/meeting/` is `/meeting`. After a client call, it files the transcript, writes the meeting note and updates the client's to-do, done and decisions files. Run `/meeting RealPlayer`, or `/meeting` from inside a client folder.
+
 ## New project
 
 From the project folder:
