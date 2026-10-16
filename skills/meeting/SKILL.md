@@ -95,7 +95,7 @@ Next: Friday at 9:00, same group.
 
 ## 3. Merge into `To-Do.md`
 
-Sections, from the README: **For tomorrow**, **Prototype**, **My calls**, **Waiting on**, **Parked**.
+Sections, from the README: **Priority list**, **Prototype**, **My calls**, **Waiting on**, **Parked**.
 
 Each open item is one line:
 
@@ -105,7 +105,7 @@ Each open item is one line:
 
 Work through every row of Owed and every open question from the call:
 
-- **New:** add it to the right section, linked to this meeting. Barry's work due at the next call goes in For tomorrow, even when it was also handed to him as a call. Other design work goes in Prototype, in priority order. Calls they handed Barry go in My calls. What others owe Barry goes in Waiting on. Parked items have no checkbox or link.
+- **New:** add it to the right section, linked to this meeting. Barry's work due at the next call goes in Priority list, most urgent first, even when it was also handed to him as a call. Other design work goes in Prototype, in priority order. Calls they handed Barry go in My calls. What others owe Barry goes in Waiting on. Parked items have no checkbox or link.
 - **Changed:** if an item already covers it, reword that item in place. Keep its original link. Don't add a second copy. Check for near-duplicates by meaning, not wording.
 - **Moved:** an item can move between sections. Move it. Don't copy it.
 - **Settled:** if the call answered a My calls item or decided a question, the item drops off To-Do. Its decision goes to Decisions.md.
