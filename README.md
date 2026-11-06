@@ -16,12 +16,13 @@ ln -sf ~/claude-kit/CLAUDE.md ~/.claude/CLAUDE.md
 ```
 
 ```bash
-mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skills/meeting && ln -sfn ~/claude-kit/skills/recap ~/.claude/skills/recap
+mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skills/meeting && ln -sfn ~/claude-kit/skills/recap ~/.claude/skills/recap && ln -sfn ~/claude-kit/skills/branches ~/.claude/skills/branches
 ```
 
 ## Skills
 
 - `skills/meeting/` is `/meeting`. After a client call, it files the transcript, writes the meeting note and updates the client's to-do, done and decisions files. Run `/meeting RealPlayer`, or `/meeting` from inside a client folder.
+- `skills/branches/` is `/branches`. It lists open branches, worktrees and PRs across `~/Dev-Projects`, with status icons, and refreshes the pinned Branch Board page. Run `/branches Telatris` to filter.
 - `skills/recap/` is `/recap`. At the end of a session, it lists what was done, plus the worktrees, servers and links.
 
 ## New project
