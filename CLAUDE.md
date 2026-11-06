@@ -46,3 +46,23 @@ For everything that isn't a reply to me: copy, docs, plans, commit messages.
 
 The project's GLOSSARY.md and voice docs override this. Anything under my
 own name uses the `barry-voice-tone` skill.
+
+## Context files
+
+Applies whenever you write or edit a CLAUDE.md, CLAUDE.local.md or an
+imported note. Every line loads in every session, so each line has to
+earn its place.
+
+- **Short.** Aim for under 100 lines. Past 200, split or cut.
+- **Only what the code can't tell you:** commands, quirks, boundaries,
+  naming rules. Skip file trees and anything one read of the code shows.
+- **Rules, not reasons.** State the rule. The reasoning goes in DECISIONS.md.
+- **Point, don't paste.** Link a doc with "read X before Y". Use an
+  `@import` only for what every session needs.
+- **Put it where it's used.** Rules for one folder go in that folder's
+  CLAUDE.md, which loads only when Claude works there. A procedure
+  used now and then becomes a skill.
+- **Private stays local.** Personal or client-private context goes in
+  CLAUDE.local.md, kept out of git.
+- **No status or dates.** Those go stale. They belong in the tracker.
+- **Say it once.** Don't repeat this file in a project file.
