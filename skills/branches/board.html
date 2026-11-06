@@ -41,12 +41,12 @@ h2 { font-size: 16px; font-weight: 600; margin: 0; }
 .repo-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
 .group { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .path { font: 12px var(--mono); color: var(--muted); overflow-wrap: anywhere; }
-.row { display: grid; grid-template-columns: 112px minmax(0, 1fr) 150px; gap: 6px 14px; align-items: center; padding-top: 10px; border-top: 1px solid var(--line); }
+.row { display: grid; grid-template-columns: 124px minmax(0, 1fr) 150px; gap: 6px 14px; align-items: center; padding-top: 10px; border-top: 1px solid var(--line); }
 .row .name { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .branch { font: 500 13px var(--mono); overflow-wrap: anywhere; }
 .meta { font-size: 12px; color: var(--muted); }
 .meta a { color: var(--accent); }
-.lane { display: block; width: 150px; height: 22px; }
+.lane { display: block; width: 150px; height: 32px; }
 .lane text { font: 500 10px var(--mono); fill: var(--muted); }
 .quiet { font-size: 13px; color: var(--muted); }
 .quiet code { font: 12px var(--mono); }
@@ -65,7 +65,7 @@ h2 { font-size: 16px; font-weight: 600; margin: 0; }
   </header>
   <div class="summary" id="summary"></div>
   <div class="legend">
-    <span><span class="chip s-local">only on this Mac</span> back it up or push</span>
+    <span><span class="chip s-local">local only</span> exists only on this Mac. Push it</span>
     <span><span class="chip s-merged">merged</span> safe to clean up</span>
     <span><span class="chip s-empty">empty</span> no commits yet</span>
   </div>
@@ -76,7 +76,7 @@ h2 { font-size: 16px; font-weight: 600; margin: 0; }
 </main>
 
 <script>
-var LABEL = { local: "only on this Mac", changes: "uncommitted", behind: "behind", merged: "merged", pr: "PR open", empty: "empty", current: "current", pushed: "pushed" };
+var LABEL = { local: "local only", changes: "uncommitted", behind: "behind", merged: "merged", pr: "PR open", empty: "empty", current: "current", pushed: "pushed" };
 var ORDER = ["local", "changes", "behind", "merged", "pr", "empty", "pushed", "current"];
 var STROKE = { local: "--risk", changes: "--warn", behind: "--warn", merged: "--clean", pr: "--info", empty: "--idle", current: "--ok", pushed: "--ok" };
 
@@ -85,21 +85,21 @@ function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.cl
 function lane(r) {
   var ns = "http://www.w3.org/2000/svg";
   var svg = document.createElementNS(ns, "svg");
-  svg.setAttribute("viewBox", "0 0 150 22"); svg.setAttribute("class", "lane"); svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("viewBox", "0 0 150 32"); svg.setAttribute("class", "lane"); svg.setAttribute("aria-hidden", "true");
   var c = "var(" + STROKE[r.status] + ")";
   function add(t, attrs) { var n = document.createElementNS(ns, t); for (var k in attrs) n.setAttribute(k, attrs[k]); svg.appendChild(n); return n; }
-  add("line", { x1: 6, y1: 11, x2: 144, y2: 11, stroke: "var(--line)", "stroke-width": 2 });
+  add("line", { x1: 6, y1: 10, x2: 144, y2: 10, stroke: "var(--line)", "stroke-width": 2 });
   if (r.is_root) {
-    add("circle", { cx: 75, cy: 11, r: 5, fill: c });
-    if (r.behind) { var t = add("text", { x: 84, y: 8 }); t.textContent = r.behind + " behind"; }
+    add("circle", { cx: 75, cy: 10, r: 5, fill: c });
+    if (r.behind) { var t = add("text", { x: 75, y: 28, "text-anchor": "middle" }); t.textContent = r.behind + " behind"; }
     return svg;
   }
-  add("circle", { cx: 6, cy: 11, r: 4, fill: "var(--muted)" });
-  var t0 = add("text", { x: 14, y: 8 }); t0.textContent = "main";
+  add("circle", { cx: 6, cy: 10, r: 4, fill: "var(--muted)" });
+  var t0 = add("text", { x: 2, y: 28 }); t0.textContent = "main";
   var w = Math.min(130, 30 + r.ahead * 12);
-  add("line", { x1: 6, y1: 11, x2: 6 + w, y2: 11, stroke: c, "stroke-width": 2 });
-  add("circle", { cx: 6 + w, cy: 11, r: 5, fill: r.status === "empty" ? "var(--surface)" : c, stroke: c, "stroke-width": 2 });
-  if (r.ahead) { var t1 = add("text", { x: Math.max(14, w - 46), y: 21 }); t1.textContent = "+" + r.ahead + " commit" + (r.ahead > 1 ? "s" : ""); }
+  add("line", { x1: 6, y1: 10, x2: 6 + w, y2: 10, stroke: c, "stroke-width": 2 });
+  add("circle", { cx: 6 + w, cy: 10, r: 5, fill: r.status === "empty" ? "var(--surface)" : c, stroke: c, "stroke-width": 2 });
+  if (r.ahead) { var t1 = add("text", { x: Math.max(6 + w, 92) + 4, y: 28, "text-anchor": "end" }); t1.textContent = "+" + r.ahead + " commit" + (r.ahead > 1 ? "s" : ""); }
   return svg;
 }
 
