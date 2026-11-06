@@ -36,7 +36,7 @@ Copy the page next to the data, then republish the pinned artifact.
 cp ~/claude-kit/skills/branches/board.html "<scratchpad>/branch-board/index.html"
 ```
 
-1. Read the artifact first with the Artifact tool: `action: "read"`, `url: https://claude.ai/artifact/7vfFLMqxqXwPaW5gRtDPxA`.
+1. Read the artifact first with the Artifact tool: `action: "read"`, `url: https://claude.ai/artifact/7vfFLMqxqXwPaW5gRtDPxA`. Then read its data too: the same call with `path: "data.json"`. The scheduled refresh replaces it, and a publish over an unread copy is refused.
 2. Publish with `url` set to that link, `file_path` set to `<scratchpad>/branch-board/index.html`, and `files` set to `{"data.json": "<scratchpad>/branch-board/data.json"}`.
 
 End with the board link on its own line.
