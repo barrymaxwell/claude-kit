@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Branch Board</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -103,7 +104,7 @@ function lane(r) {
 }
 
 function render(data) {
-  document.getElementById("stamp").textContent = "Updated " + new Date(data.generated).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) + (data.filter ? " · " + data.filter : "");
+  document.getElementById("stamp").textContent = "Updated " + new Date(data.generated).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) + (data.filter ? " \u00B7 " + data.filter : "");
   var counts = {};
   data.repos.forEach(function (repo) { repo.rows.forEach(function (r) { counts[r.status] = (counts[r.status] || 0) + 1; }); });
   var sum = document.getElementById("summary"); sum.textContent = "";
@@ -130,9 +131,9 @@ function render(data) {
       if (r.changes) bits.push(r.changes + " uncommitted");
       if (r.unpushed) bits.push(r.unpushed + " unpushed");
       if (r.date) bits.push("last commit " + r.date);
-      var meta = el("span", "meta", bits.join(" · "));
+      var meta = el("span", "meta", bits.join(" \u00B7 "));
       if (r.pr) {
-        meta.appendChild(document.createTextNode(" · "));
+        meta.appendChild(document.createTextNode(" \u00B7 "));
         var a = el("a", null, "#" + r.pr.number + " " + r.pr.state.toLowerCase());
         a.href = r.pr.url; a.target = "_blank"; a.rel = "noopener";
         meta.appendChild(a);
