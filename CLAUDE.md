@@ -28,6 +28,19 @@ and ask me for the rest.
 - Do only what was asked. Say "done" only after checking. If you couldn't
   check, say so.
 
+## npm
+
+In a repo with a `package-lock.json`:
+
+- Install with `npm ci` at the repo root. Never use `npm install` to set up
+  a worktree or a fresh checkout.
+- Use `npm install` only to add, remove or update a package. Commit the
+  lockfile with that change.
+- If `npm ci` fails because the lockfile and `package.json` disagree, stop
+  and tell me before running `npm install`.
+- Each time you run `npm ci`, tell me in one line: "Installed with npm ci.
+  Lockfile unchanged." If `git status` shows otherwise, say what changed.
+
 ## Writing
 
 For everything that isn't a reply to me: copy, docs, plans, commit messages.
