@@ -29,6 +29,8 @@ cp ~/claude-kit/skills/branches/board.html "<scratchpad>/branch-board/index.html
 1. Read the artifact first with the Artifact tool: `action: "read"`, `url: https://claude.ai/artifact/7vfFLMqxqXwPaW5gRtDPxA`. Then read its data too: the same call with `path: "data.json"`. The scheduled refresh replaces it, and a publish over an unread copy is refused.
 2. Publish with `url` set to that link, `file_path` set to `<scratchpad>/branch-board/index.html`, and `files` set to `{"data.json": "<scratchpad>/branch-board/data.json"}`.
 
+The board belongs to Barry's main account. In his other accounts the read won't say "writer", or the publish is refused. Then skip publishing. Never create a new board. The hourly refresh keeps it current, so reply as usual and add "Board refreshes hourly from the main account."
+
 ## 3. Reply
 
 At most three lines that name what needs Barry, then the board link on its own line. Skip a line when nothing fits it.
