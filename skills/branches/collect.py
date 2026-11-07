@@ -30,7 +30,7 @@ def find_repos(root, depth=3):
             repos.append(dirpath)
             dirnames[:] = []
             continue
-        dirnames[:] = [d for d in dirnames if not d.startswith(".") and d != "node_modules"]
+        dirnames[:] = [d for d in dirnames if not d.startswith(".") and d not in ("node_modules", "Archive")]
         if level >= depth:
             dirnames[:] = []
     return sorted(repos)
