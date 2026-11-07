@@ -44,3 +44,7 @@ Commit and push. On other machines, `git pull`.
 
 Every few weeks, ask Claude in each active project: "Prune the context
 files. Archive what's stale, merge duplicates, keep them short."
+
+## Session start
+
+`hooks/session-start.sh` runs when a session starts. It's wired in through `~/.claude/settings.json`. Each new session opens with "claude-kit loaded" and the kit's skills. In a project folder with no CLAUDE.md, Claude offers to set up the kit.
