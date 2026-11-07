@@ -142,7 +142,7 @@ def remote_rows(repo, base, pr_map, local, days=14):
     return rows
 
 
-def collect(repo, fetch):
+def collect(repo, fetch, root):
     if fetch:
         run(["git", "fetch", "-q", "--prune", "origin"], repo, timeout=40)
     base = default_branch(repo)
@@ -161,7 +161,7 @@ def collect(repo, fetch):
     rows += remote_rows(repo, base, pr_map, {r["branch"] for r in rows})
     remote = run(["git", "remote", "get-url", "origin"], repo)
     attention = any(r["status"] not in ("current", "pushed") for r in rows)
-    return {"name": os.path.basename(repo), "group": os.path.basename(os.path.dirname(repo)),
+    return {"name": os.path.basename(repo), "group": os.path.relpath(repo, root).split(os.sep)[0],
             "path": repo, "remote": remote, "base": base, "rows": rows, "attention": attention}
 
 
@@ -198,7 +198,8 @@ def main():
     ap.add_argument("--no-fetch", action="store_true")
     a = ap.parse_args()
     paths = [p for p in find_repos(a.root) if a.filter.lower() in p.lower()]
-    repos = [collect(p, not a.no_fetch) for p in paths]
+    root = os.path.expanduser(a.root)
+    repos = [collect(p, not a.no_fetch, root) for p in paths]
     print(markdown(repos))
     if a.out:
         data = {"generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
