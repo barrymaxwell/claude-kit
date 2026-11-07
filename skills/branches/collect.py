@@ -89,8 +89,11 @@ def branch_info(repo, name, base, wt_path, pr_map, is_root):
     base_name = base.split("/", 1)[-1]
 
     if name == base_name:
-        status = "behind" if behind else ("changes" if changes else "current")
-        note = f"{behind} behind origin" if behind else ""
+        if unpushed:
+            status, note = "local", "commits not pushed"
+        else:
+            status = "behind" if behind else ("changes" if changes else "current")
+            note = f"{behind} behind origin" if behind else ""
     elif pr and pr["state"] == "MERGED" or gone:
         status, note = "merged", "merged; safe to remove once changes are checked" if changes else "merged; safe to remove"
     elif not upstream and ahead == 0 and changes == 0:
