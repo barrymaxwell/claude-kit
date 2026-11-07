@@ -16,7 +16,7 @@ ln -sf ~/claude-kit/CLAUDE.md ~/.claude/CLAUDE.md
 ```
 
 ```bash
-mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skills/meeting && ln -sfn ~/claude-kit/skills/recap ~/.claude/skills/recap && ln -sfn ~/claude-kit/skills/branches ~/.claude/skills/branches && ln -sfn ~/claude-kit/skills/where ~/.claude/skills/where
+mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skills/meeting && ln -sfn ~/claude-kit/skills/recap ~/.claude/skills/recap && ln -sfn ~/claude-kit/skills/branches ~/.claude/skills/branches && ln -sfn ~/claude-kit/skills/where ~/.claude/skills/where && ln -sfn ~/claude-kit/skills/no-ai-slop ~/.claude/skills/no-ai-slop
 ```
 
 ## Skills
@@ -25,6 +25,7 @@ mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skill
 - `skills/branches/` is `/branches`. It lists open branches, worktrees and PRs across `~/Dev-Projects`, with status icons, and refreshes the pinned Branch Board page. Run `/branches Telatris` to filter.
 - `skills/recap/` is `/recap`. At the end of a session, it lists what was done, plus the worktrees, servers and links.
 - `skills/where/` is `/where`. It says which repo, worktree and branch the session is on, plus sync state, uncommitted files, the last commit and the PR.
+- `skills/no-ai-slop/` edits drafts to sound less like AI. By Peter Yang, MIT license.
 
 ## New project
 
