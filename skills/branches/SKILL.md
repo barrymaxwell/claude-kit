@@ -1,6 +1,6 @@
 ---
 name: branches
-description: Show every open branch and worktree across Barry's repos, with status icons in chat and a refreshed Branch Board page. Use when Barry types /branches or asks what branches, worktrees or PRs are open, what's unpushed, or what can be cleaned up.
+description: Refresh the Branch Board with every open branch and worktree across Barry's repos, and name what needs him in a few lines. Use when Barry types /branches or asks what branches, worktrees or PRs are open, what's unpushed, or what can be cleaned up.
 argument-hint: "[optional repo or folder filter, e.g. 'Telatris']"
 ---
 
@@ -16,19 +16,9 @@ Run the collector. It fetches each repo, reads worktrees and branches, and asks 
 python3 -I ~/claude-kit/skills/branches/collect.py "<filter>" --out "<scratchpad>/branch-board/data.json"
 ```
 
-`<scratchpad>` is this session's scratchpad directory. Create `branch-board/` first. The script prints the chat view.
+`<scratchpad>` is this session's scratchpad directory. Create `branch-board/` first. The script prints a summary for you to read. Don't paste it into chat. The board is the view.
 
-## 2. Chat view
-
-Paste the script's output as it is. Don't rebuild the tables. Below it, add at most three lines that name what needs Barry:
-
-- 🔴 Work that exists only on this Mac. Name the repo and branch.
-- 🧹 Merged branches that can be removed. Say if any have uncommitted changes.
-- 🟡 Root checkouts far behind origin.
-
-Key: 🟢 current or pushed · 🔗 PR open · 🟡 uncommitted or behind · 🔴 local only, on this Mac · ☁️ on GitHub only, active in the last 14 days · ⚪ no commits yet · 🧹 merged, safe to clean up.
-
-## 3. Board page
+## 2. Board page
 
 Copy the page next to the data, then republish the pinned artifact.
 
@@ -39,7 +29,13 @@ cp ~/claude-kit/skills/branches/board.html "<scratchpad>/branch-board/index.html
 1. Read the artifact first with the Artifact tool: `action: "read"`, `url: https://claude.ai/artifact/7vfFLMqxqXwPaW5gRtDPxA`. Then read its data too: the same call with `path: "data.json"`. The scheduled refresh replaces it, and a publish over an unread copy is refused.
 2. Publish with `url` set to that link, `file_path` set to `<scratchpad>/branch-board/index.html`, and `files` set to `{"data.json": "<scratchpad>/branch-board/data.json"}`.
 
-End with the board link on its own line.
+## 3. Reply
+
+At most three lines that name what needs Barry, then the board link on its own line. Skip a line when nothing fits it.
+
+- 🔴 Work that exists only on this Mac. Name the repo and branch.
+- 🧹 Merged branches that can be removed. Say if any have uncommitted changes.
+- 🟡 Root checkouts far behind origin.
 
 ## Cleanup, only when asked
 
