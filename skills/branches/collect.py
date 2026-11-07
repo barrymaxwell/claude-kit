@@ -9,7 +9,7 @@ import argparse, json, os, subprocess, sys
 from datetime import datetime, timezone
 
 ICON = {"current": "🟢", "merged": "🧹", "pr": "🔗", "pushed": "🟢", "changes": "🟡",
-        "behind": "🟡", "local": "🔴", "empty": "⚪"}
+        "behind": "🟡", "local": "🔴", "empty": "⚪", "remote": "☁️"}
 
 
 def run(args, cwd, timeout=30):
@@ -112,6 +112,33 @@ def branch_info(repo, name, base, wt_path, pr_map, is_root):
     }
 
 
+def remote_rows(repo, base, pr_map, local, days=14):
+    """Branches on GitHub with recent commits that have no local branch, e.g. a teammate's or a cloud session's."""
+    cutoff = datetime.now(timezone.utc).timestamp() - days * 86400
+    base_name = base.split("/", 1)[-1]
+    out = run(["git", "for-each-ref", "--sort=-committerdate",
+               "--format=%(refname:short)|%(committerdate:unix)|%(committerdate:short)|%(authorname)",
+               "refs/remotes/origin"], repo)
+    rows = []
+    for line in out.splitlines():
+        ref, ts, date, author = (line.split("|") + ["", "", "", ""])[:4]
+        name = ref.split("/", 1)[-1] if "/" in ref else ""
+        if not name or name in ("HEAD", base_name) or name in local or name.startswith("dependabot/"):
+            continue
+        if not ts.isdigit() or int(ts) < cutoff:
+            continue
+        counts = run(["git", "rev-list", "--left-right", "--count", f"{base}...{ref}"], repo).split()
+        behind, ahead = (int(counts[0]), int(counts[1])) if len(counts) == 2 else (0, 0)
+        pr = pr_map.get(name)
+        rows.append({
+            "branch": name, "worktree": None, "is_root": False, "status": "remote",
+            "note": f"on GitHub only, last commit by {author}", "author": author,
+            "ahead": ahead, "behind": behind, "changes": 0, "unpushed": 0, "pushed": True,
+            "date": date, "pr": {k: pr[k] for k in ("number", "state", "url", "title")} if pr else None,
+        })
+    return rows
+
+
 def collect(repo, fetch):
     if fetch:
         run(["git", "fetch", "-q", "--prune", "origin"], repo, timeout=40)
@@ -128,6 +155,7 @@ def collect(repo, fetch):
     for b in run(["git", "for-each-ref", "--format=%(refname:short)", "refs/heads"], repo).splitlines():
         if b not in seen:
             rows.append(branch_info(repo, b, base, None, pr_map, False))
+    rows += remote_rows(repo, base, pr_map, {r["branch"] for r in rows})
     remote = run(["git", "remote", "get-url", "origin"], repo)
     attention = any(r["status"] not in ("current", "pushed") for r in rows)
     return {"name": os.path.basename(repo), "group": os.path.basename(os.path.dirname(repo)),
@@ -151,7 +179,7 @@ def markdown(repos):
                 bits.append(f"{x['unpushed']} unpushed")
             if x["pr"] and x["pr"]["state"] == "OPEN":
                 bits.append(f"[#{x['pr']['number']}]({x['pr']['url']})")
-            wt = "root" if x["is_root"] else (x["worktree"] or "none")
+            wt = "root" if x["is_root"] else (x["worktree"] or ("GitHub" if x["status"] == "remote" else "none"))
             lines.append(f"| {ICON[x['status']]} | `{x['branch']}` | {wt} | {', '.join(bits) or 'clean'} |")
         lines.append("")
     if quiet:

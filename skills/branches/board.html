@@ -89,11 +89,12 @@ var S = {
   behind:  { label: "behind",      color: "--warn" },
   merged:  { label: "merged",      color: "--clean", hint: "safe to remove" },
   pr:      { label: "PR open",     color: "--info" },
+  remote:  { label: "on GitHub",   color: "--accent" },
   empty:   { label: "empty",       color: "--idle",  hint: "no commits yet" },
   pushed:  { label: "pushed",      color: "--ok" },
   current: { label: "current",     color: "--ok" }
 };
-var ORDER = ["local", "changes", "behind", "merged", "pr", "empty", "pushed", "current"];
+var ORDER = ["local", "changes", "behind", "merged", "pr", "remote", "empty", "pushed", "current"];
 var SEP = " · ";
 
 function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
@@ -133,7 +134,8 @@ function row(r) {
   meta.appendChild(state);
   var bits = [];
   if (S[r.status].hint) bits.push(S[r.status].hint);
-  bits.push(r.is_root ? "root checkout" : (r.worktree ? r.worktree : "no worktree"));
+  if (r.status === "remote") bits.push(r.author ? "last commit by " + r.author : "not on this Mac");
+  else bits.push(r.is_root ? "root checkout" : (r.worktree ? r.worktree : "no worktree"));
   if (r.changes) bits.push(r.changes + (r.changes > 1 ? " files changed" : " file changed"));
   if (r.unpushed) bits.push(r.unpushed + " unpushed");
   if (r.date) bits.push(r.date);

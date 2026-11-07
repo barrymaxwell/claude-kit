@@ -26,7 +26,7 @@ Paste the script's output as it is. Don't rebuild the tables. Below it, add at m
 - 🧹 Merged branches that can be removed. Say if any have uncommitted changes.
 - 🟡 Root checkouts far behind origin.
 
-Key: 🟢 current or pushed · 🔗 PR open · 🟡 uncommitted or behind · 🔴 local only, on this Mac · ⚪ no commits yet · 🧹 merged, safe to clean up.
+Key: 🟢 current or pushed · 🔗 PR open · 🟡 uncommitted or behind · 🔴 local only, on this Mac · ☁️ on GitHub only, active in the last 14 days · ⚪ no commits yet · 🧹 merged, safe to clean up.
 
 ## 3. Board page
 
