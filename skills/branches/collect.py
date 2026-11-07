@@ -90,7 +90,7 @@ def branch_info(repo, name, base, wt_path, pr_map, is_root):
 
     if name == base_name:
         if unpushed:
-            status, note = "local", "commits not pushed"
+            status, note = "local", ""
         else:
             status = "behind" if behind else ("changes" if changes else "current")
             note = f"{behind} behind origin" if behind else ""
