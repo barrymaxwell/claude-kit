@@ -193,7 +193,7 @@ def markdown(repos):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("filter", nargs="?", default="")
-    ap.add_argument("--root", default="~/Dev-Projects")
+    ap.add_argument("--root", default=os.environ.get("BRANCHES_ROOT", "~/Dev-Projects"))
     ap.add_argument("--out")
     ap.add_argument("--no-fetch", action="store_true")
     a = ap.parse_args()

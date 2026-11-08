@@ -1,39 +1,40 @@
 ---
 name: branches
-description: Refresh the Branch Board with every open branch and worktree across Barry's repos, and name what needs him in a few lines. Use when Barry types /branches or asks what branches, worktrees or PRs are open, what's unpushed, or what can be cleaned up.
+description: Refresh this account's Branch Board with every open branch and worktree across your local repos, and name what needs you in a few lines. Use when the user types /branches or asks what branches, worktrees or PRs are open, what's unpushed, or what can be cleaned up.
 argument-hint: "[optional repo or folder filter, e.g. 'Telatris']"
 ---
 
 # /branches
 
-Read-only. Never delete, push, commit or remove anything unless Barry asks in this conversation.
+Read-only. Never delete, push, commit or remove anything unless the user asks in this conversation.
+
+Repos are found under `~/Dev-Projects`, three folders deep. Set `BRANCHES_ROOT` to use another folder. Folders named `Archive` are skipped.
 
 ## 1. Collect
 
-Run the collector. It fetches each repo, reads worktrees and branches, and asks `gh` for PRs. Pass the filter if Barry gave one.
+Run the collector. It fetches each repo, reads worktrees and branches, and asks `gh` for PRs. Pass the filter if the user gave one.
 
 ```bash
-python3 -I ~/claude-kit/skills/branches/collect.py "<filter>" --out "<scratchpad>/branch-board/data.json"
+python3 -I ~/.claude/skills/branches/collect.py "<filter>" --out "<scratchpad>/branch-board/data.json"
 ```
 
 `<scratchpad>` is this session's scratchpad directory. Create `branch-board/` first. The script prints a summary for you to read. Don't paste it into chat. The board is the view.
 
 ## 2. Board page
 
-Copy the page next to the data, then republish the pinned artifact.
+Each account has its own board, titled "Branch Board". Find it by title. Never store or hard-code its link.
 
 ```bash
-cp ~/claude-kit/skills/branches/board.html "<scratchpad>/branch-board/index.html"
+cp ~/.claude/skills/branches/board.html "<scratchpad>/branch-board/index.html"
 ```
 
-1. Read the artifact first with the Artifact tool: `action: "read"`, `url: https://claude.ai/artifact/7vfFLMqxqXwPaW5gRtDPxA`. Then read its data too: the same call with `path: "data.json"`. The scheduled refresh replaces it, and a publish over an unread copy is refused.
-2. Publish with `url` set to that link, `file_path` set to `<scratchpad>/branch-board/index.html`, and `files` set to `{"data.json": "<scratchpad>/branch-board/data.json"}`.
-
-The board belongs to Barry's main account. In his other accounts the read won't say "writer", or the publish is refused. Then skip publishing. Never create a new board. The hourly refresh keeps it current, so reply as usual and add "Board refreshes hourly from the main account."
+1. List this account's artifacts with the Artifact tool: `action: "list"`, `scope: "mine"`, `limit: 200`. Take the most recent one titled exactly "Branch Board".
+2. **Found:** read it with `action: "read"` and its `url`. Then read its data with the same call and `path: "data.json"`. A publish over an unread copy is refused. Then publish with `url` set to it, `file_path` set to `<scratchpad>/branch-board/index.html`, and `files` set to `{"data.json": "<scratchpad>/branch-board/data.json"}`.
+3. **Not found:** publish without `url`, with the same `file_path` and `files`, plus `icon: "branch"` and `pin: true`. This is the account's first board.
 
 ## 3. Reply
 
-At most three lines that name what needs Barry, then the board link on its own line. Skip a line when nothing fits it.
+At most three lines that name what needs the user, then the board link on its own line. Skip a line when nothing fits it.
 
 - 🔴 Work that exists only on this Mac. Name the repo and branch.
 - 🧹 Merged branches that can be removed. Say if any have uncommitted changes.
