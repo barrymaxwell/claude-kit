@@ -30,32 +30,38 @@ If a check fails or can't run, say so in **Open**. Don't guess.
 
 ## 2. Write
 
-Use this shape. Leave out any section with nothing in it.
+Match `/where` and `/close`: a heading, then short tables. Use `~` for the home folder. Start each state with ✅ when it's done or fine and ⚠️ when it needs Barry. Leave out any section with nothing in it.
 
 ```
-**Done**
-- <change, under 10 words>
+### <repo> · Recap
 
-**Worktrees**
-- `<worktree name>`: `<branch>`. <Committed, pushed, merged or uncommitted>.
+| Done | |
+|---|---|
+| **<session title, linked>** | <change, under 10 words> |
+| | <change> |
 
-**Servers**
-- <launch name>: localhost:<port>. <Running or stopped>.
-- Also running: <port>, <port>.
+| Worktree | Branch | State |
+|---|---|---|
+| **<worktree name>** | `<branch>` | ✅ merged and pushed, or ⚠️ 3 commits not pushed, or ⚠️ 2 uncommitted files |
 
-**Links**
-- [<name>](<url>)
+| Server | Port | State |
+|---|---|---|
+| **<launch name>** | :<port> | ✅ running, or ✅ stopped |
+
+| Links | |
+|---|---|
+| **<name>** | <url> |
 
 **Open**
-- <anything pending, unverified or broken>
+- ⚠️ <anything pending, unverified or broken>
 ```
 
 Rules:
 
-- 15 lines at most, not counting headings. Merge or drop bullets to fit.
-- One fact per bullet. No intro line and no closing line.
+- 15 rows at most across the tables. Merge or drop rows to fit.
+- One fact per row. No intro line and no closing line.
 - List outcomes, not steps. Write "Added the RealPlayer screen", not "Read the notes, then added…".
-- Name each linked session once, as a link: [title](#local_<id>).
-- Under **Done**, group work by session only when more than one session did work.
+- Link each linked session once, in the Done table: [title](#local_<id>). Use "This session" for work done here.
+- Other dev servers still listening get one row: **Also running** · :5181, :5182 · ✅ left alone.
 - Follow Barry's writing rules in `~/.claude/CLAUDE.md`, and the project's GLOSSARY.md if it has one.
 - With an argument, cover only that focus. Still list every worktree and server.
