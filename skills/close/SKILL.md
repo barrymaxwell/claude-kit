@@ -5,11 +5,11 @@ description: Close out the current Claude Code session. Checks this session and 
 
 # /close
 
-Ends a session's git footprint. Touch only the worktrees and branches this session and its linked sessions used.
+Ends a session's git footprint. Touch only the worktrees, branches and dev servers this session and its linked sessions used.
 
 ## 1. Find what this session used
 
-- Load the session tools with ToolSearch (`select:mcp__ccd_session_mgmt__list_sessions,mcp__ccd_session_mgmt__get_session`).
+- Load the session tools with ToolSearch (`select:mcp__ccd_session_mgmt__list_sessions,mcp__ccd_session_mgmt__get_session,mcp__ccd_session_mgmt__list_events`).
 - Call `get_session("self")`, and `list_sessions` with `{"linked": true}`. Collect each session's worktree path and branch.
 - Run `git fetch -q origin`, then `git worktree list` from the repo root.
 - A worktree or branch that no session names belongs to someone else. Leave it.
