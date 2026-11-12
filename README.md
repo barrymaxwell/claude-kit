@@ -27,6 +27,7 @@ The [Slash Commands page](https://claude.ai/artifact/MwUdunrUjNK3WnAZ6ii2zf) lis
 - `skills/branches/` is `/branches`. It refreshes this account's pinned Branch Board with every open branch, worktree and PR under `~/Dev-Projects`. The first run in an account creates and pins the board. Set `BRANCHES_ROOT` to scan another folder.
 - `skills/recap/` is `/recap`. At the end of a session, it lists what was done, plus the worktrees, servers and links.
 - `skills/close/` is `/close`. It checks for unsaved work, then removes the session's worktrees and branches and stops its dev servers.
+- `skills/archive/` is `/archive`. If no session has unsaved work, it archives this session and its sub-sessions. If one does, it asks whether to commit.
 - `skills/where/` is `/where`. It says which repo, worktree and branch the session is on, plus sync state, uncommitted files, the last commit and the PR.
 - `skills/no-ai-slop/` edits drafts to sound less like AI. By Peter Yang, MIT license.
 

@@ -44,7 +44,8 @@ p { margin: 0; }
 code, .cmd { font-family: var(--font-mono); }
 code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; font-size: .88em; }
 
-.flow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .step { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 4px; align-content: start; }
 .step .when { font-size: 13px; color: var(--muted); }
 .step .cmd { color: var(--accent); font-weight: 600; font-size: 17px; }
@@ -77,7 +78,8 @@ code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; font-si
     <div class="flow">
       <div class="step"><span class="when">Anytime</span><span class="cmd">/where</span><p>Which repo, worktree, branch and dev server am I on?</p></div>
       <div class="step"><span class="when">Wrapping up</span><span class="cmd">/recap</span><p>What did this session and its sub-sessions do?</p></div>
-      <div class="step"><span class="when">Last</span><span class="cmd">/close</span><p>Anything left to commit? If not, clean up.</p></div>
+      <div class="step"><span class="when">Cleaning up</span><span class="cmd">/close</span><p>Anything left to commit? If not, clean up.</p></div>
+      <div class="step"><span class="when">Last</span><span class="cmd">/archive</span><p>All saved? Then archive this session and its sub-sessions.</p></div>
     </div>
   </section>
 
@@ -112,6 +114,17 @@ code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; font-si
           <dt>Checks</dt><dd>Uncommitted, unpushed or unmerged work in this session and the sessions it started.</dd>
           <dt>Changes</dt><dd>Removes merged worktrees and branches. Stops their dev servers. Keeps anything unsaved and asks.</dd>
           <dt>Leaves</dt><dd>Other sessions' worktrees and servers, and the sessions themselves.</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row">
+      <span class="cmd">/archive</span>
+      <div class="body">
+        <p class="what">Archives this session and its sub-sessions.</p>
+        <dl>
+          <dt>Checks</dt><dd>Uncommitted files and unpushed commits in every one of them.</dd>
+          <dt>Changes</dt><dd>If all is saved, archives the sub-sessions, then this one. Archiving removes their worktrees.</dd>
+          <dt>Asks</dt><dd>If something is unsaved, shows it and asks whether to commit. Archives nothing until it's clean.</dd>
         </dl>
       </div>
     </div>
@@ -164,5 +177,5 @@ code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; font-si
     <div class="marks"><span>✅ done or fine</span><span>⚠️ needs you</span><span><code>~</code> your home folder</span></div>
   </section>
 
-  <p class="foot">Updated 11 Nov 2026.</p>
+  <p class="foot">Updated 12 Nov 2026.</p>
 </main>
