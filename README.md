@@ -16,7 +16,7 @@ ln -sf ~/claude-kit/CLAUDE.md ~/.claude/CLAUDE.md
 ```
 
 ```bash
-mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skills/meeting && ln -sfn ~/claude-kit/skills/recap ~/.claude/skills/recap && ln -sfn ~/claude-kit/skills/branches ~/.claude/skills/branches && ln -sfn ~/claude-kit/skills/where ~/.claude/skills/where && ln -sfn ~/claude-kit/skills/no-ai-slop ~/.claude/skills/no-ai-slop
+mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skills/meeting && ln -sfn ~/claude-kit/skills/recap ~/.claude/skills/recap && ln -sfn ~/claude-kit/skills/close ~/.claude/skills/close && ln -sfn ~/claude-kit/skills/branches ~/.claude/skills/branches && ln -sfn ~/claude-kit/skills/where ~/.claude/skills/where && ln -sfn ~/claude-kit/skills/no-ai-slop ~/.claude/skills/no-ai-slop
 ```
 
 ## Skills
@@ -24,6 +24,7 @@ mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skill
 - `skills/meeting/` is `/meeting`. After a client call, it files the transcript, writes the meeting note and updates the client's to-do, done and decisions files. Run `/meeting RealPlayer`, or `/meeting` from inside a client folder.
 - `skills/branches/` is `/branches`. It refreshes this account's pinned Branch Board with every open branch, worktree and PR under `~/Dev-Projects`. The first run in an account creates and pins the board. Set `BRANCHES_ROOT` to scan another folder.
 - `skills/recap/` is `/recap`. At the end of a session, it lists what was done, plus the worktrees, servers and links.
+- `skills/close/` is `/close`. It checks for unsaved work, then removes the session's worktrees and branches.
 - `skills/where/` is `/where`. It says which repo, worktree and branch the session is on, plus sync state, uncommitted files, the last commit and the PR.
 - `skills/no-ai-slop/` edits drafts to sound less like AI. By Peter Yang, MIT license.
 
