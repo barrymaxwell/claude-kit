@@ -47,11 +47,24 @@ Also check the main checkout with `git status -sb`, and `~/claude-kit` if this s
 
 ## 5. Reply
 
-Three lines at most:
+One line for the outcome, then two tables. Leave out a table with no rows.
 
 ```
-Nothing to commit. Removed <n> worktrees and <n> branches: <names>.
-Stopped <launch name> on <port>.
+Closed. Nothing left to commit.
+
+| | Worktree | Branch | State | Done |
+|---|---|---|---|---|
+| ✓ | `main` | `main` | Clean, in sync | Kept |
+| ✓ | `peaceful-roentgen-81b7f9` | `claude/peaceful-roentgen-81b7f9` | Merged | Removed |
+| ✗ | `site-art-9c6266` | `claude/site-art-9c6266` | 2 uncommitted files | Kept |
+
+| | Server | Port | Done |
+|---|---|---|---|
+| ✓ | onboarding | 5185 | Stopped |
+| – | upgrade-paths | 5186 | Kept. Another session uses it |
 ```
 
-If something blocked removal, say what and where. If a branch was already gone, say so.
+- ✓ means done or fine. ✗ means it needs Barry. – means left on purpose.
+- The outcome line says "Closed." when everything was cleaned up. Otherwise it says "Partly closed." and names what needs Barry, like "Commit or drop 2 files in site-art."
+- An item that was already gone gets a row with "Already removed".
+- Rows that need Barry go first.
