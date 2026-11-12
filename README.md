@@ -21,6 +21,8 @@ mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skill
 
 ## Skills
 
+The [Slash Commands page](https://claude.ai/artifact/MwUdunrUjNK3WnAZ6ii2zf) lists them all. Its source is `skills.html`. When a skill changes, update the page and republish it to that URL.
+
 - `skills/meeting/` is `/meeting`. After a client call, it files the transcript, writes the meeting note and updates the client's to-do, done and decisions files. Run `/meeting RealPlayer`, or `/meeting` from inside a client folder.
 - `skills/branches/` is `/branches`. It refreshes this account's pinned Branch Board with every open branch, worktree and PR under `~/Dev-Projects`. The first run in an account creates and pins the board. Set `BRANCHES_ROOT` to scan another folder.
 - `skills/recap/` is `/recap`. At the end of a session, it lists what was done, plus the worktrees, servers and links.

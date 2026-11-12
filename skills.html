@@ -1,0 +1,168 @@
+<title>Barry's Slash Commands</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a single reference column. The end-of-session sequence first, then every command as a row you can scan. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #16191d;
+  --muted: #5b636e;
+  --line: #dde1e7;
+  --accent: #1d5fd1;
+  --accent-soft: #e6eefc;
+  --code-bg: #eef1f5;
+  --font-body: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111418; --surface: #191d22; --ink: #e8ebef; --muted: #9aa3ae;
+    --line: #2a3038; --accent: #7aa7ff; --accent-soft: #1c2a44; --code-bg: #21262d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111418; --surface: #191d22; --ink: #e8ebef; --muted: #9aa3ae;
+  --line: #2a3038; --accent: #7aa7ff; --accent-soft: #1c2a44; --code-bg: #21262d;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 16px/1.55 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 64px;
+}
+main { max-width: 760px; margin: 0 auto; display: grid; gap: 40px; }
+h1 { font-size: 28px; line-height: 1.2; margin: 0 0 6px; text-wrap: balance; }
+h2 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; font-weight: 700; }
+p { margin: 0; }
+.lede { color: var(--muted); max-width: 60ch; }
+code, .cmd { font-family: var(--font-mono); }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; font-size: .88em; }
+
+.flow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 4px; align-content: start; }
+.step .when { font-size: 13px; color: var(--muted); }
+.step .cmd { color: var(--accent); font-weight: 600; font-size: 17px; }
+.step p { font-size: 14px; }
+@media (max-width: 560px) { .flow { grid-template-columns: 1fr; } }
+
+.group { display: grid; gap: 0; }
+.row { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+.row:last-child { border-bottom: 1px solid var(--line); }
+.row .cmd { font-weight: 600; color: var(--accent); padding-top: 1px; }
+.row .body { display: grid; gap: 6px; min-width: 0; }
+.row .what { font-weight: 700; }
+.row dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 2px 12px; font-size: 14px; }
+.row dt { color: var(--muted); }
+.row dd { margin: 0; }
+@media (max-width: 560px) { .row { grid-template-columns: 1fr; gap: 6px; } }
+
+.marks { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: var(--muted); }
+.foot { font-size: 14px; color: var(--muted); }
+</style>
+
+<main>
+  <header>
+    <h1>Barry's Slash Commands</h1>
+    <p class="lede">Type one in any Claude Code session. They live in <code>~/claude-kit/skills</code> and work in every project.</p>
+  </header>
+
+  <section>
+    <h2>End of a session</h2>
+    <div class="flow">
+      <div class="step"><span class="when">Anytime</span><span class="cmd">/where</span><p>Which repo, worktree, branch and dev server am I on?</p></div>
+      <div class="step"><span class="when">Wrapping up</span><span class="cmd">/recap</span><p>What did this session and its sub-sessions do?</p></div>
+      <div class="step"><span class="when">Last</span><span class="cmd">/close</span><p>Anything left to commit? If not, clean up.</p></div>
+    </div>
+  </section>
+
+  <section class="group">
+    <h2>Sessions</h2>
+    <div class="row">
+      <span class="cmd">/where</span>
+      <div class="body">
+        <p class="what">Shows where this session is working.</p>
+        <dl>
+          <dt>Shows</dt><dd>Repo, worktree, folder, sync state, uncommitted files, dev server, last commit and PR.</dd>
+          <dt>Changes</dt><dd>Nothing. Read-only.</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row">
+      <span class="cmd">/recap</span>
+      <div class="body">
+        <p class="what">Sums up the session's work.</p>
+        <dl>
+          <dt>Shows</dt><dd>What was done, by session. Worktrees and branches, dev servers, links, and anything still open.</dd>
+          <dt>Changes</dt><dd>Nothing. Read-only.</dd>
+          <dt>Option</dt><dd><code>/recap onboarding only</code> narrows the Done list.</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row">
+      <span class="cmd">/close</span>
+      <div class="body">
+        <p class="what">Cleans up after the session.</p>
+        <dl>
+          <dt>Checks</dt><dd>Uncommitted, unpushed or unmerged work in this session and the sessions it started.</dd>
+          <dt>Changes</dt><dd>Removes merged worktrees and branches. Stops their dev servers. Keeps anything unsaved and asks.</dd>
+          <dt>Leaves</dt><dd>Other sessions' worktrees and servers, and the sessions themselves.</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row">
+      <span class="cmd">/branches</span>
+      <div class="body">
+        <p class="what">Lists every open branch and worktree across your repos.</p>
+        <dl>
+          <dt>Shows</dt><dd>The Branch Board artifact, refreshed, plus a few lines on what needs you.</dd>
+          <dt>Option</dt><dd><code>/branches Telatris</code> filters to one repo or folder.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="group">
+    <h2>Clients and writing</h2>
+    <div class="row">
+      <span class="cmd">/meeting</span>
+      <div class="body">
+        <p class="what">Files a client call.</p>
+        <dl>
+          <dt>Does</dt><dd>Finds the transcript, writes the meeting note, and updates To-Do, Done and Decisions in the vault.</dd>
+          <dt>Option</dt><dd><code>/meeting RealPlayer</code>, or run it from inside a client folder.</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row">
+      <span class="cmd">no-ai-slop</span>
+      <div class="body">
+        <p class="what">Edits a draft to sound like you.</p>
+        <dl>
+          <dt>Use</dt><dd>Ask for a draft to be sharper, or ask whether it reads as AI.</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row">
+      <span class="cmd">Set up the kit</span>
+      <div class="body">
+        <p class="what">Starts a new project.</p>
+        <dl>
+          <dt>Does</dt><dd>Copies the brief, glossary and decisions log into the folder, fills in what it can, and asks for the rest.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Reading the reports</h2>
+    <div class="marks"><span>✅ done or fine</span><span>⚠️ needs you</span><span><code>~</code> your home folder</span></div>
+  </section>
+
+  <p class="foot">Updated 11 Nov 2026.</p>
+</main>
