@@ -16,7 +16,7 @@ ln -sf ~/claude-kit/CLAUDE.md ~/.claude/CLAUDE.md
 ```
 
 ```bash
-mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skills/meeting && ln -sfn ~/claude-kit/skills/recap ~/.claude/skills/recap && ln -sfn ~/claude-kit/skills/close ~/.claude/skills/close && ln -sfn ~/claude-kit/skills/branches ~/.claude/skills/branches && ln -sfn ~/claude-kit/skills/where ~/.claude/skills/where && ln -sfn ~/claude-kit/skills/no-ai-slop ~/.claude/skills/no-ai-slop
+mkdir -p ~/.claude/skills && ln -sfn ~/claude-kit/skills/meeting ~/.claude/skills/meeting && ln -sfn ~/claude-kit/skills/recap ~/.claude/skills/recap && ln -sfn ~/claude-kit/skills/close ~/.claude/skills/close && ln -sfn ~/claude-kit/skills/branches ~/.claude/skills/branches && ln -sfn ~/claude-kit/skills/where ~/.claude/skills/where && ln -sfn ~/claude-kit/skills/no-ai-slop ~/.claude/skills/no-ai-slop && ln -sfn ~/claude-kit/skills/archive ~/.claude/skills/archive
 ```
 
 ## Skills
