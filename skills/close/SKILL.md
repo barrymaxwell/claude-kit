@@ -47,24 +47,23 @@ Also check the main checkout with `git status -sb`, and `~/claude-kit` if this s
 
 ## 5. Reply
 
-One line for the outcome, then two tables. Leave out a table with no rows.
+Match `/where`: a heading, then tables. Use `~` for the home folder. Start each value with ✅ when it's done or fine and ⚠️ when it needs Barry. Leave out a table with no rows.
 
 ```
-Closed. Nothing left to commit.
+### <repo> · Closed
 
-| | Worktree | Branch | State | Done |
-|---|---|---|---|---|
-| ✓ | `main` | `main` | Clean, in sync | Kept |
-| ✓ | `peaceful-roentgen-81b7f9` | `claude/peaceful-roentgen-81b7f9` | Merged | Removed |
-| ✗ | `site-art-9c6266` | `claude/site-art-9c6266` | 2 uncommitted files | Kept |
+| Worktree | Branch | State |
+|---|---|---|
+| **site-art-9c6266** | `claude/site-art-9c6266` | ⚠️ 2 uncommitted files · kept |
+| **peaceful-roentgen-81b7f9** | `claude/peaceful-roentgen-81b7f9` | ✅ merged · removed |
+| **root checkout** | `main` | ✅ clean, in sync |
 
-| | Server | Port | Done |
-|---|---|---|---|
-| ✓ | onboarding | 5185 | Stopped |
-| – | upgrade-paths | 5186 | Kept. Another session uses it |
+| Server | Port | State |
+|---|---|---|
+| **onboarding** | :5185 | ✅ stopped |
+| **upgrade-paths** | :5186 | ✅ kept · another session uses it |
 ```
 
-- ✓ means done or fine. ✗ means it needs Barry. – means left on purpose.
-- The outcome line says "Closed." when everything was cleaned up. Otherwise it says "Partly closed." and names what needs Barry, like "Commit or drop 2 files in site-art."
-- An item that was already gone gets a row with "Already removed".
-- Rows that need Barry go first.
+- The heading says "Closed" when everything was cleaned up. Otherwise it says "Partly closed", and one line under it names what needs Barry, like "Commit or drop 2 files in site-art."
+- An item that was already gone gets a row with "✅ already removed".
+- Rows with ⚠️ go first.
