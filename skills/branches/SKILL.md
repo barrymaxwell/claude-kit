@@ -1,6 +1,6 @@
 ---
 name: branches
-description: Refresh this account's Branch Board with every open branch and worktree across your local repos, and name what needs you in a few lines. Use when the user types /branches or asks what branches, worktrees or PRs are open, what's unpushed, or what can be cleaned up.
+description: Refresh this account's Branch Board with every open branch and worktree across your local repos, and name what needs you in a few lines. Use when the user types /branches or asks what branches, worktrees or PRs are open, what's unpushed, what can be cleaned up, or which saved servers are stale.
 argument-hint: "[optional repo or folder filter, e.g. 'Telatris']"
 ---
 
@@ -39,7 +39,10 @@ At most three lines that name what needs the user, then the board link on its ow
 - 🔴 Work that exists only on this Mac. Name the repo and branch.
 - 🧹 Merged branches that can be removed. Say if any have uncommitted changes.
 - 🟡 Root checkouts far behind origin.
+- 🗂️ Saved servers in a `.claude/launch.json` whose folder is gone. Name each one and its file. Offer to remove them.
 
 ## Cleanup, only when asked
 
 Remove the worktree first, then the branch. Check a worktree's changes before removing it. Squash-merged branches need `git branch -D`.
+
+To remove a stale saved server, edit its launch.json with a script. Keep every other entry. Check that the file still parses.

@@ -80,6 +80,7 @@ h2 { font-size: 15px; font-weight: 600; margin: 0; }
     <p class="waiting">Repos appear here after /branches runs. Each one lists its worktrees, branches and pull requests.</p>
   </div>
   <p class="quiet" id="quiet" hidden></p>
+  <section class="group" id="stale" hidden></section>
 </main>
 
 <script>
@@ -201,7 +202,26 @@ function render(data) {
 var FILTER = "all";
 try { FILTER = localStorage.getItem("bb-filter") || "all"; } catch (e) {}
 
+function stale(list) {
+  var sec = document.getElementById("stale"); sec.textContent = "";
+  sec.hidden = !(list && list.length);
+  if (sec.hidden) return;
+  sec.appendChild(el("div", "group-label", "Stale saved servers"));
+  var box = el("div", "repo");
+  list.forEach(function (x) {
+    var r = el("div", "row");
+    r.appendChild(dot("changes"));
+    var t = el("div");
+    t.appendChild(el("b", null, x.name + (x.port ? " :" + x.port : "")));
+    t.appendChild(el("div", "path", x.file.replace(/^\/Users\/[^/]+/, "~") + SEP + "folder gone"));
+    r.appendChild(t);
+    box.appendChild(r);
+  });
+  sec.appendChild(box);
+}
+
 function init(data) {
+  stale(data.stale_servers);
   var names = [];
   data.repos.forEach(function (r) { if (names.indexOf(r.group) < 0) names.push(r.group); });
   names.sort(function (a, b) { return a.localeCompare(b); });

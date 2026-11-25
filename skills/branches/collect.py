@@ -4,8 +4,9 @@
 Usage: collect.py [filter] [--root DIR] [--out FILE] [--no-fetch]
 Prints a markdown summary for chat. With --out, also writes JSON for the board page.
 Read-only: runs git fetch --prune and gh pr list, nothing else.
+Also lists saved servers in .claude/launch.json files whose folder no longer exists.
 """
-import argparse, json, os, subprocess, sys
+import argparse, json, os, re, subprocess, sys
 from datetime import datetime, timezone
 
 ICON = {"current": "🟢", "merged": "🧹", "pr": "🔗", "pushed": "🟢", "changes": "🟡",
@@ -165,7 +166,40 @@ def collect(repo, fetch, root):
             "path": repo, "remote": remote, "base": base, "rows": rows, "attention": attention}
 
 
-def markdown(repos):
+def server_folder(cfg):
+    """The folder a saved server runs in: its cwd, or the first `cd <path>` in its command."""
+    if cfg.get("cwd"):
+        return os.path.expanduser(cfg["cwd"])
+    cmd = " ".join([cfg.get("runtimeExecutable", "")] + [str(a) for a in cfg.get("runtimeArgs", [])])
+    m = re.search(r"""\bcd\s+(?:"([^"]+)"|'([^']+)'|([^\s;&|]+))""", cmd)
+    if not m:
+        return None
+    return os.path.expanduser(next(g for g in m.groups() if g))
+
+
+def stale_servers(root, flt, depth=4):
+    """Saved servers in any .claude/launch.json under root whose folder is gone."""
+    out = []
+    for dirpath, dirnames, filenames in os.walk(root):
+        rel = os.path.relpath(dirpath, root)
+        level = 0 if rel == "." else rel.count(os.sep) + 1
+        f = os.path.join(dirpath, ".claude", "launch.json")
+        if os.path.isfile(f) and flt.lower() in dirpath.lower():
+            try:
+                cfgs = json.load(open(f)).get("configurations", [])
+            except Exception:
+                cfgs = []
+            for c in cfgs:
+                folder = server_folder(c)
+                if folder and not os.path.isdir(folder):
+                    out.append({"file": f, "name": c.get("name", "?"), "port": c.get("port"), "folder": folder})
+        dirnames[:] = [d for d in dirnames if not d.startswith(".") and d not in ("node_modules", "Archive")]
+        if level >= depth:
+            dirnames[:] = []
+    return out
+
+
+def markdown(repos, stale=()):
     lines = []
     quiet = [r["name"] for r in repos if not r["attention"]]
     for r in repos:
@@ -187,6 +221,9 @@ def markdown(repos):
         lines.append("")
     if quiet:
         lines.append("🟢 Clean: " + ", ".join(quiet))
+    for x in stale:
+        home = os.path.expanduser("~")
+        lines.append(f"🗂️ Stale saved server **{x['name']}** :{x['port']} in {x['file'].replace(home, '~')}. Folder gone: {x['folder'].replace(home, '~')}")
     return "\n".join(lines) if lines else "🟢 Everything is clean."
 
 
@@ -200,10 +237,11 @@ def main():
     paths = [p for p in find_repos(a.root) if a.filter.lower() in p.lower()]
     root = os.path.expanduser(a.root)
     repos = [collect(p, not a.no_fetch, root) for p in paths]
-    print(markdown(repos))
+    stale = stale_servers(root, a.filter)
+    print(markdown(repos, stale))
     if a.out:
         data = {"generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                "root": a.root, "filter": a.filter, "repos": repos}
+                "root": a.root, "filter": a.filter, "repos": repos, "stale_servers": stale}
         with open(os.path.expanduser(a.out), "w") as f:
             json.dump(data, f, indent=1)
 
