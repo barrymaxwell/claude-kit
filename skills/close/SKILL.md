@@ -1,11 +1,11 @@
 ---
 name: close
-description: Close out the current Claude Code session. Checks this session and the sessions it started for uncommitted, unpushed or unmerged work, then removes their worktrees and branches if nothing is left, and stops their dev servers. Use when Barry types /close or asks to clean up, close branches or worktrees, or check whether anything still needs committing.
+description: Close out the current Claude Code session. Checks this session and the sessions it started for uncommitted, unpushed or unmerged work, then removes their worktrees and branches if nothing is left, stops their dev servers, and prunes stale saved servers from launch.json. Use when Barry types /close or asks to clean up, close branches or worktrees, or check whether anything still needs committing.
 ---
 
 # /close
 
-Ends a session's git footprint. Touch only the worktrees, branches and dev servers this session and its linked sessions used.
+Ends a session's git footprint. Touch only the worktrees, branches and dev servers this session and its linked sessions used, plus launch.json entries whose folder is gone.
 
 ## 1. Find what this session used
 
@@ -45,7 +45,16 @@ Also check the main checkout with `git status -sb`, and `~/claude-kit` if this s
 - Leave a server whose folder belongs to another open session, even on a port this session used. Name it in the reply.
 - Run `lsof` again to confirm each port is free.
 
-## 5. Reply
+## 5. Prune saved servers
+
+Saved servers live in `.claude/launch.json` at the repo root. Each entry's folder is the `cd` path in `runtimeArgs`, or `cwd` if set.
+
+- Remove an entry when its folder is a worktree removed in step 3, or the folder no longer exists.
+- Keep every other entry, even if nothing is running on its port.
+- Edit the JSON with a script and keep the rest of the file as it is. Check that it still parses.
+- If an entry's folder can't be found in its command, keep it and name it in the reply.
+
+## 6. Reply
 
 Match `/where`: a heading, then tables. Use `~` for the home folder. Start each value with ✅ when it's done or fine and ⚠️ when it needs Barry. Leave out a table with no rows.
 
@@ -62,6 +71,7 @@ Match `/where`: a heading, then tables. Use `~` for the home folder. Start each 
 |---|---|---|
 | **onboarding** | :5185 | ✅ stopped |
 | **upgrade-paths** | :5186 | ✅ kept · another session uses it |
+| **testimonials** | :3002 | ✅ removed from launch.json |
 ```
 
 - The heading says "Closed" when everything was cleaned up. Otherwise it says "Partly closed", and one line under it names what needs Barry, like "Commit or drop 2 files in site-art."
